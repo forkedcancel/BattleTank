@@ -2288,6 +2288,7 @@
     <Include Path="/Applications/UE_4.16/Engine/Intermediate/Build/Mac/UE4Editor/Inc/XmlParser" />
     <Include Path="/Applications/UE_4.16/Engine/Source/Runtime/XmlParser" />
     <Include Path="/Users/wrose/dev/unreal/BattleTank/Source" />
+    <Include Path="/Users/wrose/dev/unreal/BattleTank/Source/BattleTank/Public" />
     <Include Path="/Users/wrose/dev/unreal/BattleTank/Intermediate/Build/Mac/UE4Editor/Inc/BattleTank" />
     <Include Path="/Users/wrose/dev/unreal/BattleTank/Source/BattleTank" />
   </WorkspaceParserPaths>

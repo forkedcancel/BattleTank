@@ -2285,5 +2285,6 @@
 /Applications/UE_4.16/Engine/Intermediate/Build/Mac/UE4Editor/Inc/XmlParser
 /Applications/UE_4.16/Engine/Source/Runtime/XmlParser
 /Users/wrose/dev/unreal/BattleTank/Source
+/Users/wrose/dev/unreal/BattleTank/Source/BattleTank/Public
 /Users/wrose/dev/unreal/BattleTank/Intermediate/Build/Mac/UE4Editor/Inc/BattleTank
 /Users/wrose/dev/unreal/BattleTank/Source/BattleTank
