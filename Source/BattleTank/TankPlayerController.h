@@ -31,4 +31,19 @@ public:
 protected:
     virtual void BeginPlay() override;
 
+private:
+
+    UPROPERTY(EditAnywhere)
+    float CrossHairXLocation = 0.5;
+
+    UPROPERTY(EditAnywhere)
+    float CrossHairYLocation = 0.33333;
+
+    bool GetSightRayHitLocation(FVector &HitLocation) const;
+
+    FVector GetLineReachStart();
+
+    FVector GetLineReachEnd();
+
+//    bool GetSightRayHitLocation(FVector &HitLocation);
 };

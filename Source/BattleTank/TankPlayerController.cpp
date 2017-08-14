@@ -3,8 +3,7 @@
 #include "TankPlayerController.h"
 
 // Sets default values
-ATankPlayerController::ATankPlayerController()
-{
+ATankPlayerController::ATankPlayerController() {
     // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
@@ -33,9 +32,42 @@ void ATankPlayerController::Tick(float DeltaTime) {
 void ATankPlayerController::AimTowardsCrosshair() {
     if (!GetControlledTank()) { return; }
 
-    // Get world location through crosshair
-
+    FVector HitLocation; // Out parameter
     // If it hits landscape
-        // Tell controlled tank to aim at this point
+    if (GetSightRayHitLocation(HitLocation)) {
+
+        // Get world location through crosshair
+        UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+            // Tell controlled tank to aim at this point
+    }
+
 }
 
+bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const {
+    HitLocation = FVector(1.0f);
+
+    // De-project the screen position of the crosshair to a world direction
+    int32 ViewportSizeX, ViewportSizeY;
+    GetViewportSize(ViewportSizeX, ViewportSizeY);
+
+    auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+    UE_LOG(LogTemp, Warning, TEXT("Reticle Location: %s"), *ScreenLocation.ToString());
+
+    return true;
+}
+
+FVector ATankPlayerController::GetLineReachStart() {
+    FRotator PlayerViewPointRotation;
+    FVector PlayerViewPointLocation;
+    GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotation);
+
+    return PlayerViewPointLocation;
+}
+
+FVector ATankPlayerController::GetLineReachEnd() {
+    FRotator PlayerViewPointRotation;
+    FVector PlayerViewPointLocation;
+    GetPlayerViewPoint(PlayerViewPointLocation, PlayerViewPointRotation);
+
+    return PlayerViewPointLocation + PlayerViewPointRotation.Vector() * 100.f;
+}
