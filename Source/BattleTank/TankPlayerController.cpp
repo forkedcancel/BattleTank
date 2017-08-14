@@ -27,5 +27,15 @@ void ATankPlayerController::BeginPlay() {
 
 void ATankPlayerController::Tick(float DeltaTime) {
     Super::Tick(DeltaTime);
+    AimTowardsCrosshair();
+}
+
+void ATankPlayerController::AimTowardsCrosshair() {
+    if (!GetControlledTank()) { return; }
+
+    // Get world location through crosshair
+
+    // If it hits landscape
+        // Tell controlled tank to aim at this point
 }
 
