@@ -2,6 +2,13 @@
 
 #include "TankPlayerController.h"
 
+// Sets default values
+ATankPlayerController::ATankPlayerController()
+{
+    // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
+
+}
 
 ATank *ATankPlayerController::GetControlledTank() const {
     return Cast<ATank>(GetPawn());
@@ -16,5 +23,9 @@ void ATankPlayerController::BeginPlay() {
     } else {
         UE_LOG(LogTemp, Warning, TEXT("PlayerController possessing %s"), *(ControlledTank->GetName()));
     }
+}
+
+void ATankPlayerController::Tick(float DeltaTime) {
+    Super::Tick(DeltaTime);
 }
 
