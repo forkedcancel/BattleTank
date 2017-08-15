@@ -4,6 +4,10 @@
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 
+ATankAIController::ATankAIController() {
+    PrimaryActorTick.bCanEverTick = true;
+}
+
 ATank *ATankAIController::GetControlledTank() const {
     return Cast<ATank>(GetPawn());
 }
@@ -26,6 +30,28 @@ void ATankAIController::BeginPlay() {
     }
 }
 
+void ATankAIController::Tick(float DeltaTime) {
+    Super::Tick(DeltaTime);
+    AimTowardsPlayer();
+
+}
+
 ATank *ATankAIController::GetPlayerTank() const {
     return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+}
+
+void ATankAIController::AimTowardsPlayer() {
+    if (!GetControlledTank()) { return; }
+
+//    FVector HitLocation;
+
+    if (GetPlayerTank()) {
+        // TODO Move towards player
+
+        // Aim towards player
+        GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+
+        // Fire when ready
+    }
+
 }
