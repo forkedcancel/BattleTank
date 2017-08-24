@@ -49,6 +49,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;
-    UE_LOG(LogTemp, Warning, TEXT("Aim As Rotator: %s"), *AimAsRotator.ToString());
     Barrel->Elevate(5.f);
 }
