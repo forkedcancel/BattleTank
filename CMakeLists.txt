@@ -8,7 +8,7 @@ include("/Users/wrose/dev/unreal/BattleTank/Intermediate/ProjectFiles/IncludeDir
 include("/Users/wrose/dev/unreal/BattleTank/Intermediate/ProjectFiles/Definitions.cmake")
 include("/Users/wrose/dev/unreal/BattleTank/Intermediate/ProjectFiles/BattleTankEditor.cmake")
 
-set(MONO_ROOT_PATH "/Applications/UE_4.16/Engine/Binaries/DotNET")
+set(MONO_ROOT_PATH "/Applications/UE_4.17/Engine/Binaries/DotNET")
 set(BUILD cd "${MONO_ROOT_PATH}")
 
 # Custom target for BattleTankEditor project, Development configuration
