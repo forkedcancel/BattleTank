@@ -23,15 +23,13 @@ void ATank::BeginPlay()
 }
 
 void ATank::Fire() {
-    auto Time = GetWorld()->GetTimeSeconds();
-    UE_LOG(LogTemp, Warning, TEXT("%f: Tank has fired"), Time);
-
     if (!Barrel) { return; }
 
     // Spawn a projectile at the socket location
     auto SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
     auto SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
-    GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);
+    auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);
+    Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 // Called to bind functionality to input
