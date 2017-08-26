@@ -7,6 +7,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel; // Forward Declaration
+class UTankTurret; // Forward Declaration
 class UTankAimingComponent; // Forward Declaration
 
 UCLASS()
@@ -20,6 +21,13 @@ public:
 
     UFUNCTION(BlueprintCallable)
     void SetBarrelReference(UTankBarrel *BarrelToSet);
+
+	UFUNCTION(BlueprintCallable)
+	void SetTurretReference(UTankTurret *TurretToSet);
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
 
 protected:
 	// Called when the game starts or when spawned
