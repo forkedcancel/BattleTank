@@ -19,17 +19,20 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ATank::Fire() {
-    if (!Barrel) { return; }
 
-    // Spawn a projectile at the socket location
-    auto SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
-    auto SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
-    auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);
-    Projectile->LaunchProjectile(LaunchSpeed);
+    bool isReloaded = FGenericPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
+    if (Barrel && isReloaded) {
+
+        // Spawn a projectile at the socket location
+        auto SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
+        auto SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
+        auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);
+        Projectile->LaunchProjectile(LaunchSpeed);
+        LastFireTime = FGenericPlatformTime::Seconds();
+    }
 }
 
 // Called to bind functionality to input
