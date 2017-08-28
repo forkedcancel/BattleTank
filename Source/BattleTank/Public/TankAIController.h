@@ -25,4 +25,7 @@ private:
     void Tick(float DeltaTime);
 
     void AimTowardsPlayer(ATank *ControlledTank, ATank *PlayerTank);
+
+	UPROPERTY(EditDefaultsOnly)
+    float AcceptanceRadius = 30.f; // Sane default?
 };
