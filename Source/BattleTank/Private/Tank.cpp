@@ -16,9 +16,10 @@ ATank::ATank()
 
 void ATank::Fire() {
 
-    bool isReloaded = FGenericPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
-    if (Barrel && isReloaded) {
+    if (!ensure(Barrel)) { return; }
 
+    bool isReloaded = FGenericPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
+    if (isReloaded) {
         // Spawn a projectile at the socket location
         auto SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
         auto SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
@@ -29,6 +30,6 @@ void ATank::Fire() {
 }
 
 void ATank::AimAt(FVector HitLocation) {
-    if (!TankAimingComponent) { return; }
+    if (!ensure(TankAimingComponent)) { return; }
     TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }

@@ -14,14 +14,14 @@ UTankAimingComponent::UTankAimingComponent() {
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* Barrel, UTankTurret* Turret) {
-    if (!Barrel || !Turret) { return; }
+    if (!ensure(Barrel && Turret)) { return; }
     this->Barrel = Barrel;
     this->Turret = Turret;
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 
-    if (!Barrel || !Turret) { return; }
+    if (!ensure(Barrel && Turret)) { return; }
 
     auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
     FVector OutLaunchVelocity;
@@ -46,7 +46,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
-    if (!Barrel || !Turret) { return; }
+    if (!ensure(Barrel && Turret)) { return; }
     auto BarrelRotator = Barrel->GetForwardVector().Rotation();
     auto AimAsRotator = AimDirection.Rotation();
     auto DeltaRotator = AimAsRotator - BarrelRotator;

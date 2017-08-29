@@ -32,7 +32,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 }
 
 void ATankPlayerController::AimTowardsCrosshair() {
-    if (!GetControlledTank()) { return; }
+    if (!ensure(GetControlledTank())) { return; }
 
     FVector HitLocation; // Out parameter
     // If it hits landscape

@@ -21,7 +21,7 @@ void ATankAIController::Tick(float DeltaTime) {
 }
 
 void ATankAIController::AimTowardsPlayer(ATank *ControlledTank, ATank* PlayerTank) {
-    if (!ControlledTank) { return; }
+    if (!ensure(ControlledTank)) { return; }
 
     if (PlayerTank) {
         // TODO Move towards player
