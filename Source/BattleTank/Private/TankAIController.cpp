@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-#include "Public/Tank.h"
+#include "Tank.h" // TODO Remove this
+#include "TankMovementComponent.h"
+#include "TankAimingComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 

@@ -2,7 +2,6 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
 #include "Engine/World.h"
@@ -14,6 +13,13 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay() {
+    Super::BeginPlay();
+
+    TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+    Barrel = FindComponentByClass<UTankBarrel>();
+}
+
 void ATank::Fire() {
 
     if (!ensure(Barrel)) { return; }
@@ -21,6 +27,8 @@ void ATank::Fire() {
     bool isReloaded = FGenericPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
     if (isReloaded) {
         // Spawn a projectile at the socket location
+        //TankAimingComponent->GetBarrelSocketLocation
+        //TankAimingComponent->GetBarrelSocketRotation
         auto SocketLocation = Barrel->GetSocketLocation(FName("Projectile"));
         auto SocketRotation = Barrel->GetSocketRotation(FName("Projectile"));
         auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, SocketLocation, SocketRotation);

@@ -8,7 +8,6 @@
 ATankPlayerController::ATankPlayerController() {
     // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
-
 }
 
 ATank *ATankPlayerController::GetControlledTank() const {
@@ -19,10 +18,8 @@ void ATankPlayerController::BeginPlay() {
     Super::BeginPlay();
 
     auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-    if (AimingComponent) {
+    if (ensure(AimingComponent)) {
         FoundAimingComponent(AimingComponent);
-    } else {
-        UE_LOG(LogTemp, Error, TEXT("PlayerController missing Aiming Component"));
     }
 }
 
