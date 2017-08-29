@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
+#include "TankAimingComponent.h"
 
 // Sets default values
 ATankPlayerController::ATankPlayerController() {
@@ -17,10 +18,11 @@ ATank *ATankPlayerController::GetControlledTank() const {
 void ATankPlayerController::BeginPlay() {
     Super::BeginPlay();
 
-    auto ControlledTank = GetControlledTank();
-    if (!ControlledTank) {
-        UE_LOG(LogTemp, Error, TEXT("PlayerController not possessing a tank!"))
-        return;
+    auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+    if (AimingComponent) {
+        FoundAimingComponent(AimingComponent);
+    } else {
+        UE_LOG(LogTemp, Error, TEXT("PlayerController missing Aiming Component"));
     }
 }
 
