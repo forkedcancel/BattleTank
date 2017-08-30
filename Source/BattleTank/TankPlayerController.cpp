@@ -4,73 +4,78 @@
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
 
-// Sets default values
-ATankPlayerController::ATankPlayerController() {
-    // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = true;
-}
-
-void ATankPlayerController::BeginPlay() {
+void ATankPlayerController::BeginPlay()
+{
     Super::BeginPlay();
-
     auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
     if (!ensure(AimingComponent)) { return; }
     FoundAimingComponent(AimingComponent);
 }
 
-void ATankPlayerController::Tick(float DeltaTime) {
-    Super::Tick(DeltaTime);
+void ATankPlayerController::Tick(float DeltaTime)
+{
+    Super::Tick( DeltaTime );
     AimTowardsCrosshair();
 }
 
-void ATankPlayerController::AimTowardsCrosshair() {
+void ATankPlayerController::AimTowardsCrosshair()
+{
+    if (!ensure(GetPawn())) { return; }
     auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
     if (!ensure(AimingComponent)) { return; }
 
     FVector HitLocation; // Out parameter
-    if (GetSightRayHitLocation(HitLocation)) {
+    if (GetSightRayHitLocation(HitLocation)) // Has "side-effect", is going to line trace
+    {
         AimingComponent->AimAt(HitLocation);
     }
 }
 
-// De-project the screen position of the crosshair to a world direction
-FVector2D ATankPlayerController::GetScreenLocation() const {
+// Get world location of linetrace through crosshair, true if hits landscape
+bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
+{
+    // Find the crosshair position in pixel coordinates
     int32 ViewportSizeX, ViewportSizeY;
     GetViewportSize(ViewportSizeX, ViewportSizeY);
+    auto ScreenLocation = FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
 
-    return FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+    // "De-project" the screen position of the crosshair to a world direction
+    FVector LookDirection;
+    if (GetLookDirection(ScreenLocation, LookDirection))
+    {
+        // Line-trace along that LookDirection, and see what we hit (up to max range)
+        GetLookVectorHitLocation(LookDirection, HitLocation);
+    }
+
+    return true;
 }
 
-// Get world location through crosshair
-bool ATankPlayerController::GetLookVectorHitLocation(FVector &HitLocation, FVector &LookDirection) const {
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
+{
     FHitResult HitResult;
-
     auto StartLocation = PlayerCameraManager->GetCameraLocation();
-    auto EndLocation = StartLocation + LookDirection * LineTraceRange;
-    bool IsHitFound = GetWorld()->LineTraceSingleByChannel(
+    auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+    if (GetWorld()->LineTraceSingleByChannel(
             HitResult,
             StartLocation,
             EndLocation,
-            ECC_Visibility
-    );
-
-    // Set OUT var
-    HitLocation = HitResult.Location;
-
-    return IsHitFound;
-}
-
-bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const {
-
-    FVector LookDirection;
-    if (GetLookDirection(GetScreenLocation(), LookDirection)) {
-        return GetLookVectorHitLocation(HitLocation, LookDirection);
+            ECollisionChannel::ECC_Visibility)
+            )
+    {
+        HitLocation = HitResult.Location;
+        return true;
     }
-
-    return false;
+    HitLocation = FVector(0);
+    return false; // Line trace didn't succeed
 }
 
-bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const {
-    FVector WorldLocation;
-    return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, LookDirection);
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
+{
+    FVector CameraWorldLocation; // To be discarded
+    return  DeprojectScreenPositionToWorld(
+            ScreenLocation.X,
+            ScreenLocation.Y,
+            CameraWorldLocation,
+            LookDirection
+    );
 }
