@@ -22,7 +22,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw) {
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
-//    UE_LOG(LogTemp, Warning, TEXT("Dot Product: %f"), ForwardThrow);
     auto AIForwardIntention = MoveVelocity.GetSafeNormal();
     auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 
