@@ -58,7 +58,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation) {
 
     if (!ensure(Barrel)) { return; }
 
-    UE_LOG(LogTemp, Warning, TEXT("Aiming At"))
     auto StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
     FVector OutLaunchVelocity;
 

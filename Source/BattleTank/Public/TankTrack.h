@@ -13,7 +13,8 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
+
+
 	
 public:
 
@@ -23,7 +24,9 @@ public:
 
 private:
 
+	UTankTrack();
 	// Max force per track, in Newtons
 	UPROPERTY(EditDefaultsOnly)
     float TrackMaxDrivingForce = 400000; // 40 ton tank, 1g acceleration
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 };
