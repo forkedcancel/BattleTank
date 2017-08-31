@@ -18,6 +18,10 @@ class BATTLETANK_API ATankAIController : public AAIController
 public:
 	ATankAIController();
 
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float AcceptanceRadius = 8000.f; // Sane default
+
 private:
     virtual void BeginPlay() override;
 
@@ -25,6 +29,4 @@ private:
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(EditDefaultsOnly)
-    float AcceptanceRadius = 300.f; // Sane default?
 };

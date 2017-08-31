@@ -95,3 +95,7 @@ void UTankAimingComponent::MoveBarrelTowards() {
         Turret->Rotate(-DeltaRotator.Yaw);
     }
 }
+
+EFiringState UTankAimingComponent::GetFiringState() const {
+    return FiringState;
+}
