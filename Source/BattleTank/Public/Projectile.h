@@ -9,6 +9,7 @@
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
+class URadialForceComponent;
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
@@ -24,7 +25,6 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
@@ -37,6 +37,14 @@ private:
     UPROPERTY(VisibleAnywhere)
     UParticleSystemComponent* ImpactBlast = nullptr;
 
+	UPROPERTY(VisibleAnywhere)
+    URadialForceComponent* ExplosionForce = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float DestroyDelay = 3.f;
+
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit );
+
+	void OnTimerExpire();
 };
