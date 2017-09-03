@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Projectile.h"
+#include <EngineClasses.h>
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -54,8 +55,17 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
     SetRootComponent(ImpactBlast);
     CollisionMesh->DestroyComponent();
 
-    FTimerHandle InOutHandle;
+    UGameplayStatics::ApplyRadialDamage(
+      this,
+      DamageAmount,
+      GetActorLocation(),
+      ExplosionForce->Radius,
+      UDamageType::StaticClass(),
+      TArray<AActor*>() // damage all actors
+    );
 
+    // Set Destroy timer
+    FTimerHandle InOutHandle;
     GetWorld()->GetTimerManager().SetTimer(
             InOutHandle,
             this,
