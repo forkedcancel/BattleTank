@@ -20,7 +20,7 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float AcceptanceRadius = 8000.f; // Sane default
+	float AcceptanceRadius = 4000.f; // Sane default
 
 private:
     virtual void BeginPlay() override;
